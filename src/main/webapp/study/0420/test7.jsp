@@ -114,9 +114,9 @@
         <td colspan="4" class="text-center">
           <table class="table table-striped">
             <tr>
-              <td>0.<input type="text" name="product" id="product0" value="냉장고" /></td>
-              <td><input type="number" name="price" id="price0" value="50000" style="width:100px" /></td>
-              <td><input type="number" name="su" id="su0" value="1" style="width:60px" /></td>
+              <td>0.<input type="text" name="product" id="product0" value="선풍기" /></td>
+              <td><input type="number" name="price" id="price0" value="60000" style="width:100px" /></td>
+              <td><input type="number" name="su" id="su0" value="2" style="width:60px" /></td>
               <td width="100px"></td>
             </tr>
           </table>
