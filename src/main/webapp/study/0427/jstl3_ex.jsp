@@ -5,6 +5,7 @@
   String content = request.getParameter("content")==null ? "" : request.getParameter("content");
   String searchString = request.getParameter("searchString")==null ? "" : request.getParameter("searchString");
 	pageContext.setAttribute("content", content);
+	pageContext.setAttribute("contentReal", content);
 	pageContext.setAttribute("searchString", searchString);
 %>
 <c:set var="ctp" value="${pageContext.request.contextPath}"/>
@@ -31,7 +32,7 @@
   </pre>
   <form>
     문장 :
-    <textarea name="content" rows="3" class="form-control">Welcome to My Homepage!</textarea>
+    <textarea name="content" rows="3" class="form-control">${content}</textarea>
     <div>
 	    <input type="text" name="searchString" value="o" />
 	    <input type="submit" value="3번째문자 검색" class="btn-btn-success"/>
@@ -39,14 +40,25 @@
     <hr/>
     <!-- el에서의 empty연산자는 null과 공백을 같은것으로본다. 즉 null이나 공백이면 true으로 처리됨. null이나 공백이 아닌것을 참으로 처리하려면 !empty 를 이용한다. -->
     <c:if test="${!empty content && !empty searchString}">
-      <c:if test="${fn:indexOf(content,'o') ne -1}">
-	      <c:set var="position" value="${fn:indexOf(content,'o')}"/>
-	    	<c:set var="str1" value="${fn:substring(content,fn:indexOf(content,'o')+1,fn:length(content))}"/>
-	    	- <font color='red'><b>${str1}</b></font> -<br/>
-    	</c:if>
-      입력된 문자 : ${content}<br/>
+      <c:set var="strCnt" value="${fn:split(content,'o')}"/>
+      <c:set var="position" value="0"/>
+      <c:set var="cnt" value="0"/>
+      <c:forEach var="i" begin="0" end="${fn:length(strCnt)-1}">
+	      <c:if test="${fn:indexOf(content,'o') ne -1 && i < 3}">
+		      <c:set var="pos" value="${fn:indexOf(content,'o')}"/>
+		    	<c:set var="position" value="${position + (pos + 1)}"/>
+		    	<c:set var="cnt" value="${cnt + 1}"/>
+		    	<%-- <c:set var="str1" value="${fn:substring(content,fn:indexOf(content,'o')+1,fn:length(content))}"/> --%>
+		    	<c:set var="content" value="${fn:substringAfter(content,'o')}"/>
+		    	- ${i+1}번째 ${searchString}문자의 위치? <font color='red'><b>${position}</b></font> 번째<br/>
+	    	</c:if>
+    	</c:forEach>
+    	<br/>
+      입력된 문자 : ${contentReal}<br/>
       찾고자 하는 문자 : ${searchString}<br/>
-      문자가 입력된 3번째 위치 : ${position}
+      '${searchString}'문자가 입력된 3번째 위치 :
+      <c:if test="${cnt >= 3}"><font color="red"><b>${position}</b></font> 번째</c:if>
+      <c:if test="${cnt < 3}"><font color="red"><b>3까지 존재하지 않습니다.</b></font></c:if>
     </c:if>
   </form>
 </div>
