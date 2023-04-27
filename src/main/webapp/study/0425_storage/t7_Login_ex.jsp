@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%
+	// 로그인창에 아이디 체크 유무에 대한 처리
+	// 쿠키를 검색해서 cMid가 있을때 가져와서 아이디입력창에 뿌릴수 있게 한다.
 	Cookie[] cookies = request.getCookies();
 
   if(cookies != null) {

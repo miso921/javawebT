@@ -28,6 +28,7 @@ public class T7_LoginOk_ex extends HttpServlet {
 		if((mid.equals("admin") && pwd.equals("1234")) || (mid.equals("hkd1234") && pwd.equals("1234"))) {
 			session.setAttribute("sMid", mid);
 			
+			// 로그인시 아이디저장시킨다고 체크하면 쿠키에 아이디 저장하고, 그렇지 않으면 쿠키에서 아이디를 제거한다.
 			Cookie cookieMid = new Cookie("cMid", mid);
 			cookieMid.setPath("/");
 			if(idSave.equals("on")) {
