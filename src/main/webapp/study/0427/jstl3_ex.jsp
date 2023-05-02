@@ -32,7 +32,7 @@
   </pre>
   <form>
     문장 :
-    <textarea name="content" rows="3" class="form-control">${content}</textarea>
+    <textarea name="content" rows="3" class="form-control" required>${content}</textarea>
     <div>
 	    <input type="text" name="searchString" value="o" />
 	    <input type="submit" value="3번째문자 검색" class="btn-btn-success"/>

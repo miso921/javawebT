@@ -24,7 +24,7 @@
     
     function idCheck() {
     	let mid = document.getElementById("mid").value;
-    	location.href = "${ctp}/database/LoginSearch?mid="+mid;
+    	location.href = "${ctp}/LoginSearch.re?mid="+mid;
     }
   </script>
 </head>
@@ -44,8 +44,8 @@
   <div class="row">
     <div class="col"></div>
     <div class="col"><button type="button" onclick="searchCehck()" class="btn btn-primary">개별조회</button></div>
-    <div class="col"><a href="${ctp}/database/List" class="btn btn-success">전체조회</a></div>
-    <div class="col"><a href="${ctp}/database/Logout" class="btn btn-danger">로그아웃</a></div>
+    <div class="col"><a href="${ctp}/List.re" class="btn btn-success">전체조회</a></div>
+    <div class="col"><a href="${ctp}/Logout.re" class="btn btn-danger">로그아웃</a></div>
     <div class="col"></div>
   </div>
   <hr/>
