@@ -147,12 +147,14 @@ public class LoginDAO {
 		}
 	}
 
-	// 전체회원조회
-	public ArrayList<LoginVO> getLoginList() {
+	// 전체회원조회(페이징 처리)
+	public ArrayList<LoginVO> getLoginList(int startIndexNo, int pageSize) {
 		ArrayList<LoginVO> vos = new ArrayList<>();
 		try {
-			sql = "select * from login order by idx desc";
+			sql = "select * from login order by idx desc limit ?,?";
 			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, startIndexNo);
+			pstmt.setInt(2, pageSize);
 			rs = pstmt.executeQuery();
 			
 			while(rs.next()) {
@@ -231,6 +233,23 @@ public class LoginDAO {
 			pstmtClose();
 		}
 		return res;
+	}
+
+	// 총 레코드 건수 구하기
+	public int getTotRecCnt() {
+		int totRecCnt = 0;
+		try {
+			sql = "select count(idx) as cnt from login";
+			pstmt = conn.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+			rs.next();
+			totRecCnt = rs.getInt("cnt");
+		} catch (SQLException e) {
+			System.out.println("SQL 오류 : " + e.getMessage());
+		} finally {
+			rsClose();
+		}
+		return totRecCnt;
 	}
 	
 }

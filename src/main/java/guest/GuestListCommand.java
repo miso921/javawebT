@@ -1,4 +1,4 @@
-package study2.login;
+package guest;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -7,11 +7,11 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-public class ListCommand implements LoginInterface {
+public class GuestListCommand implements GuestInterface {
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		LoginDAO dao = new LoginDAO();
+		GuestDAO dao = new GuestDAO();
 		
 		// 1. 현재 페이지번호를 구한다.
 		int pag = request.getParameter("pag")==null ? 1 : Integer.parseInt(request.getParameter("pag"));
@@ -43,7 +43,7 @@ public class ListCommand implements LoginInterface {
 		int lastBlock = (totPage - 1) / blockSize;
 		
 		// 지정된 페이지의 자료를 요청한 한페이지 분량만큼 가져온다.
-		ArrayList<LoginVO> vos = dao.getLoginList(startIndexNo, pageSize);
+		ArrayList<GuestVO> vos = dao.getGuestList(startIndexNo, pageSize);
 		
 		request.setAttribute("vos", vos);
 		request.setAttribute("pag", pag);
@@ -54,4 +54,5 @@ public class ListCommand implements LoginInterface {
 		request.setAttribute("curBlock", curBlock);
 		request.setAttribute("lastBlock", lastBlock);
 	}
+
 }
