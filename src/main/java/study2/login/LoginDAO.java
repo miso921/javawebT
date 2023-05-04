@@ -251,5 +251,39 @@ public class LoginDAO {
 		}
 		return totRecCnt;
 	}
-	
+
+	// 비밀번호 암호화하기. hashTable에서 pwdKey에 해당하는 pwdValue을 찾아서 돌려준다. 
+	public long getHashTableSearch(long pwdKey) {
+		long pwdValue = 0;
+		try {
+			sql = "select * from hashTable where pwdKey = ?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setLong(1, pwdKey);
+			rs = pstmt.executeQuery();
+			rs.next();
+			pwdValue = rs.getLong("pwdValue");
+		} catch (SQLException e) {
+			System.out.println("SQL 오류 : " + e.getMessage());
+		} finally {
+			rsClose();
+		}
+		return pwdValue;
+	}
+
+	// 해시테이블에 저장된 해시키의 개수 가져오기
+	public int getHashKeyCount() {
+		int hashKeyCount = 0;
+		try {
+			sql = "select count(*) as cnt from hashTable";
+			pstmt = conn.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+			rs.next();
+			hashKeyCount = rs.getInt("cnt");
+		} catch (SQLException e) {
+			System.out.println("SQL 오류 : " + e.getMessage());
+		} finally {
+			rsClose();
+		}
+		return hashKeyCount;
+	}
 }
