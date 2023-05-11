@@ -7,12 +7,15 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-public class BoardInputOkCommand implements BoardInterface {
+public class BoardUpdateOkCommand implements BoardInterface {
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		int idx = request.getParameter("idx")==null ? 0 : Integer.parseInt(request.getParameter("idx"));
+		int pag = request.getParameter("pag")==null ? 0 : Integer.parseInt(request.getParameter("pag"));
+		int pageSize = request.getParameter("pageSize")==null ? 0 : Integer.parseInt(request.getParameter("pageSize"));
+		
 		HttpSession session = request.getSession();
-		String mid = session.getAttribute("sMid")==null ? "" : (String) session.getAttribute("sMid");
 		String nickName = session.getAttribute("sNickName")==null ? "" : (String) session.getAttribute("sNickName");
 		
 		String title = request.getParameter("title")==null ? "" : request.getParameter("title");
@@ -24,7 +27,7 @@ public class BoardInputOkCommand implements BoardInterface {
 		
 		BoardVO vo = new BoardVO();
 		
-		vo.setMid(mid);
+		vo.setIdx(idx);
 		vo.setNickName(nickName);
 		vo.setTitle(title);
 		vo.setContent(content);
@@ -32,19 +35,18 @@ public class BoardInputOkCommand implements BoardInterface {
 		vo.setHomePage(homePage);
 		vo.setHostIp(hostIp);
 		vo.setOpenSw(openSw);
-		
+		//System.out.println("vo : " + vo);
 		BoardDAO dao = new BoardDAO();
 		
-		int res = dao.setBoardInputOk(vo);
+		int res = dao.setBoardUpdateOk(vo);
 		
 		if(res == 1) {
-			request.setAttribute("msg", "게시글이 등록되었습니다.");
-			request.setAttribute("url", request.getContextPath()+"/BoardList.bo");
+			request.setAttribute("msg", "게시글이 수정되었습니다.");
 		}
 		else {
-			request.setAttribute("msg", "게시글이 등록실패~~");
-			request.setAttribute("url", request.getContextPath()+"/BoardInput.bo");
+			request.setAttribute("msg", "게시글 수정실패~~");
 		}
+		request.setAttribute("url", request.getContextPath()+"/BoardContent.bo?idx="+idx+"&pag="+pag+"&pageSize="+pageSize);
 	}
 
 }

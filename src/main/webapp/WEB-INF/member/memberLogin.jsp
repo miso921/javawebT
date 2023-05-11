@@ -17,7 +17,7 @@
 	  <div class="modal-content p-4">
 		  <h2 class="text-center">회원 로그인</h2>
 		  <p class="text-center">(회원 아이디와 비밀번호를 입력해 주세요)</p>
-		  <form name="myform" method="post" action="${ctp}/MemberInputOk.mem" class="was-validated">
+		  <form name="myform" method="post" action="${ctp}/MemberLoginOk.mem" class="was-validated">
 		    <div class="form-group">
 		      <label for="mid">회원 아이디</label>
 		      <input type="text" class="form-control" name="mid" id="mid" value="${mid}" placeholder="아이디를 입력하세요." required autofocus />
@@ -26,7 +26,7 @@
 		    </div>
 		    <div class="form-group">
 		      <label for="pwd">비밀번호</label>
-		      <input type="password" class="form-control" name="pwd" id="pwd" placeholder="Enter email" required />
+		      <input type="password" class="form-control" name="pwd" id="pwd" value="1234" placeholder="Enter email" required />
 		      <div class="valid-feedback">Ok!!!</div>
 		      <div class="invalid-feedback">비밀번호를 입력해 주세요.</div>
 		    </div>

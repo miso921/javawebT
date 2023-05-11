@@ -16,6 +16,18 @@
     	let pageSize = document.getElementById("pageSize").value;
     	location.href = "${ctp}/BoardList.bo?pag=${pag}&pageSize="+pageSize;
     }
+    
+    function searchCheck() {
+    	let searchString = $("#searchString").val();
+    	
+    	if(searchString.trim() == "") {
+    		alert("찾고자하는 검색어를 입력하세요!");
+    		searchForm.searchString.focus();
+    	}
+    	else {
+    		searchForm.submit();
+    	}
+    }
   </script>
 </head>
 <body>
@@ -49,10 +61,16 @@
     </tr>
     <c:forEach var="vo" items="${vos}" varStatus="st">
       <tr>
-        <td>${vo.idx}</td>
-        <td>
-          ${vo.title}
-          <c:if test="${vo.hour_diff <= 24}"><img src="${ctp}/images/new.gif"/></c:if>
+        <td>${curScrStartNo}</td>
+        <td class="text-left">
+          <c:if test="${vo.openSw == 'OK' || sLevel == 0 || sMid == vo.mid}">
+	          <a href="${ctp}/BoardContent.bo?idx=${vo.idx}&pag=${pag}&pageSize=${pageSize}">${vo.title}</a>
+	          <c:if test="${vo.hour_diff <= 24}"><img src="${ctp}/images/new.gif"/></c:if>
+          </c:if>
+          <c:if test="${vo.openSw != 'OK' && sLevel != 0 && sMid != vo.mid}">
+          	${vo.title}
+          </c:if>
+          <c:if test="${vo.replyCount != 0}">(${vo.replyCount})</c:if>
         </td>
         <td>${vo.nickName}</td>
         <td>
@@ -66,13 +84,14 @@
         <td>${vo.readNum}</td>
         <td>${vo.good}</td>
       </tr>
+      <c:set var="curScrStartNo" value="${curScrStartNo - 1}"/>
     </c:forEach>
     <tr><td colspan="6" class="m-0 p-0"></td></tr>
   </table>
-  <br/>
+  
   <!-- 블록 페이징 처리 -->
-  <div class="text-center">
-	  <ul class="pagination justify-content-center">
+  <div class="text-center m-4">
+	  <ul class="pagination justify-content-center pagination-sm">
 	    <c:if test="${pag > 1}"><li class="page-item"><a class="page-link text-secondary" href="${ctp}/BoardList.bo?pageSize=${pageSize}&pag=1">첫페이지</a></li></c:if>
 	    <c:if test="${curBlock > 0}"><li class="page-item"><a class="page-link text-secondary" href="${ctp}/BoardList.bo?pageSize=${pageSize}&pag=${(curBlock-1)*blockSize + 1}">이전블록</a></li></c:if>
 	    <c:forEach var="i" begin="${curBlock*blockSize + 1}" end="${curBlock*blockSize + blockSize}" varStatus="st">
@@ -82,6 +101,22 @@
 	    <c:if test="${curBlock < lastBlock}"><li class="page-item"><a class="page-link text-secondary" href="${ctp}/BoardList.bo?pageSize=${pageSize}&pag=${(curBlock+1)*blockSize + 1}">다음블록</a></li></c:if>
 	    <c:if test="${pag < totPage}"><li class="page-item"><a class="page-link text-secondary" href="${ctp}/BoardList.bo?pageSize=${pageSize}&pag=${totPage}">마지막페이지</a></li></c:if>
 	  </ul>
+  </div>
+  
+  <!-- 검색기 처리 -->
+  <div class="container text-center">
+    <form name="searchForm" method="post" action="${ctp}/BoardSearch.bo">
+      <b>검색 : </b>
+      <select name="search">
+        <option value="title" selected>글제목</option>
+        <option value="nickName">글쓴이</option>
+        <option value="content">글내용</option>
+      </select>
+      <input type="text" name="searchString" id="searchString"/>
+      <input type="button" value="검색" onclick="searchCheck()" class="btn btn-secondary btn-sm"/>
+      <input type="hidden" name="pag" value="${pag}"/>
+      <input type="hidden" name="pageSize" value="${pageSize}"/>
+    </form>
   </div>
 </div>
 <p><br/></p>

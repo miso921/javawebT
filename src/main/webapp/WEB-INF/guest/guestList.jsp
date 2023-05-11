@@ -107,6 +107,7 @@
 	      <td colspan="3" style="height:150px">${fn:replace(vo.content, newLine, '<br/>')}</td>
 	    </tr>
 	  </table>
+	  <br/>
 	  <c:set var="curScrStartNo" value="${curScrStartNo - 1}"/>
   </c:forEach>
   <br/>			<!-- 4페이지(1블록)에서 0블록으로 가게되면 현재페이지는 1페이지가 블록의 시작페이지가 된다. -->

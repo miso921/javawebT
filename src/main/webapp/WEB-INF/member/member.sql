@@ -9,7 +9,7 @@ create table member (
   gender   varchar(4) default '남자',    	/* 회원 성별 */
   birthday datetime default now(),				/* 회원 생일 */
   tel			 varchar(15),										/* 전화번호(010-1234-5678) */
-  address  varchar(100),									/* 주소(다음API 우편번호 활용) */
+  address  varchar(100),									/* 주소(다음 우편번호API 활용) */
   email    varchar(50) not null,					/* 이메일(아이디/비밀번호 분실시에 사용)-형식체크필수 */
   homePage varchar(50),										/* 홈페이지(블로그)주소 */
   job			 varchar(20),										/* 회원 직업 */
@@ -24,9 +24,12 @@ create table member (
   startDate datetime default now(),			/* 최초 가입일 */
   lastDate  datetime default now(),			/* 마지막 접속일 */
   todayCnt  int default 0,							/* 오늘 방문한 횟수 */
+  salt	    char(8) not null,						/* 비밀번호 보안을위한 해시키 */
   primary key (idx,mid)									/* 주키 : idx(고유번호), mid(회원고유아이디) */
 );
 
 desc member;
+
+drop table member;
 
 select * from member;
