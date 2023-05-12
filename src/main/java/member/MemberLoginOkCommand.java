@@ -24,7 +24,7 @@ public class MemberLoginOkCommand implements MemberInterface {
 		
 		MemberVO vo = dao.getMemberMidCheck(mid);
 		
-		if(vo.getSalt() == null) {
+		if(vo.getSalt() == null || vo.getUserDel().equals("OK")) {
 			request.setAttribute("msg", "회원정보가 없습니다. \\n다시 입력하세요.");
 			request.setAttribute("url", request.getContextPath()+"/MemberLogin.mem");
 			return;

@@ -36,6 +36,17 @@ public class MemberMainCommand implements MemberInterface {
 		// 사용자가 방명록에서 글쓴 회수 가져오기.....
 		int guestCnt = dao.getGuestWrite(mid, vo.getName(), vo.getNickName());
 		request.setAttribute("guestCnt", guestCnt);
+		
+		// 사용자가 게시판에서 글쓴 회수 가져오기.....
+		int boardCnt = dao.getBoardWrite(mid);
+		request.setAttribute("boardCnt", boardCnt);
+		
+		// 준회원 자동등업처리(방문횟수 10이상 이면서 방명록에 글을 5개 이상 올렸을때는 정회원으로 등업처리한다.)
+		if(vo.getLevel()==1 && vo.getVisitCnt()>=10 && guestCnt >= 5) {
+			dao.setLevelUpCheck(mid, 2);
+			session.setAttribute("sLevel", 2);
+			request.setAttribute("strLevel", "정회원");
+		}
 	}
 
 }

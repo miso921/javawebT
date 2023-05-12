@@ -195,21 +195,19 @@
     </tr>
     <tr>
       <td colspan="4" class="text-center">
-        <c:if test="${flag == 'search'}">
-        	<input type="button" value="돌아가기" onclick="location.href='${ctp}/BoardSearch.bo?search=${search}&searchString=${searchString}&pag=${pag}&pageSize=${pageSize}';" class="btn btn-primary"/>
-        </c:if>
-        <c:if test="${flag != 'search'}">
-        	<input type="button" value="돌아가기" onclick="location.href='${ctp}/BoardList.bo?pag=${pag}&pageSize=${pageSize}';" class="btn btn-primary"/> &nbsp;
-        	<c:if test="${sMid == vo.mid || sLevel == 0}">
-	        	<input type="button" value="수정하기" onclick="location.href='${ctp}/BoardUpdate.bo?idx=${vo.idx}&pag=${pag}&pageSize=${pageSize}';" class="btn btn-warning"/> &nbsp;
-	        	<input type="button" value="삭제하기" onclick="boardDelete()" class="btn btn-danger"/>
-        	</c:if>
-        </c:if>
+        <c:if test="${flag == 'search'}"><input type="button" value="돌아가기" onclick="location.href='${ctp}/BoardSearch.bo?search=${search}&searchString=${searchString}&pag=${pag}&pageSize=${pageSize}';" class="btn btn-primary"/></c:if>
+        <c:if test="${flag == 'searchMember'}"><input type="button" value="돌아가기" onclick="location.href='${ctp}/BoardSearchMember.bo?pag=${pag}&pageSize=${pageSize}';" class="btn btn-primary"/></c:if>
+        <c:if test="${flag != 'search' && flag != 'searchMember'}"><input type="button" value="돌아가기" onclick="location.href='${ctp}/BoardList.bo?pag=${pag}&pageSize=${pageSize}';" class="btn btn-primary"/></c:if>
+        &nbsp;
+      	<c:if test="${sMid == vo.mid || sLevel == 0}">
+        	<input type="button" value="수정하기" onclick="location.href='${ctp}/BoardUpdate.bo?idx=${vo.idx}&pag=${pag}&pageSize=${pageSize}';" class="btn btn-warning"/> &nbsp;
+        	<input type="button" value="삭제하기" onclick="boardDelete()" class="btn btn-danger"/>
+      	</c:if>
       </td>
     </tr>
   </table>
   
-  <c:if test="${flag != 'search'}">
+  <c:if test="${flag != 'search' && flag != 'searchMember'}">
 	  <!-- 이전글/ 다음글 처리 -->
 	  <table class="table table-borderless">
 	    <tr>

@@ -12,6 +12,8 @@
   <script>
     'use strict';
     
+    if(${pag} > ${totPage}) location.href="${ctp}/BoardList.bo?pag=${totPage}&pageSize=${pageSize}";
+    
     function pageCheck() {
     	let pageSize = document.getElementById("pageSize").value;
     	location.href = "${ctp}/BoardList.bo?pag=${pag}&pageSize="+pageSize;
@@ -37,7 +39,7 @@
   <h2 class="text-center">게 시 판 리 스 트</h2>
   <table class="table table-borderless">
     <tr>
-      <td><a href="${ctp}/BoardInput.bo" class="btn btn-primary btn-sm">글쓰기</a></td>
+      <td><c:if test="${sLevel != 1}"><a href="${ctp}/BoardInput.bo" class="btn btn-primary btn-sm">글쓰기</a></c:if></td>
       <td class="text-right">
         <!-- 한페이지 분량처리 -->
         <select name="pageSize" id="pageSize" onchange="pageCheck()">

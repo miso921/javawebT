@@ -11,23 +11,6 @@
   <jsp:include page="/include/bs4.jsp" />
   <script>
     'use strict';
-    
-    function pageCheck() {
-    	let pageSize = document.getElementById("pageSize").value;
-    	location.href = "${ctp}/BoardList.bo?pag=${pag}&pageSize="+pageSize;
-    }
-    
-    function searchCheck() {
-    	let searchString = $("#searchString").val();
-    	
-    	if(searchString.trim() == "") {
-    		alert("찾고자하는 검색어를 입력하세요!");
-    		searchForm.searchString.focus();
-    	}
-    	else {
-    		searchForm.submit();
-    	}
-    }
   </script>
 </head>
 <body>

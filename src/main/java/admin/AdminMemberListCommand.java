@@ -1,4 +1,4 @@
-package member;
+package admin;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -6,13 +6,18 @@ import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
-import board.BoardVO;
+import member.MemberDAO;
+import member.MemberVO;
 
-public class MemberListCommand implements MemberInterface {
+public class AdminMemberListCommand implements AdminInterface {
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+//		HttpSession session = request.getSession();
+//		int level = (int) session.getAttribute("sLevel");
+		
 		MemberDAO dao = new MemberDAO();
 		
 		// 페이징처리...
