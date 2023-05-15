@@ -21,10 +21,10 @@ public class AdminMemberLevelShowCommand implements AdminInterface {
 		ArrayList<MemberVO> vos = null;
 		
 		if(level != 9) {
-			vos = dao.getMemberList(level);
+			vos = dao.getMemberList(level);		// 전체회원 제외일때...
 		}
 		else {
-			vos = dao.getMemberList(0, 20);
+			vos = dao.getMemberList(0, 20);		// 전체회원 일때...
 		}
 		
 		request.setAttribute("vos", vos);

@@ -97,6 +97,7 @@
     		}
     	});
     }
+    
     //전체 선택
     $(function() {
     	$("#checkAll").click(function() {
