@@ -43,6 +43,10 @@
     	
     	let submitFlag = 0;		// 모든 체크가 정상으로 종료되게되면 submitFlag는 1로 변경처리될수 있게 한다.
     	
+    	// 사진 업로드 체크를 위한 준비
+    	let maxSize = 1024 * 1024 * 2; 	// 업로드할 회원사진의 용량은 2MByte까지로 제한한다.
+    	let fName = myform.fName.value;
+    	let ext = fName.substring(fName.lastIndexOf(".")+1).toUpperCase();	// 파일 확장자 발췌후 대문자로 변환
     	
     	// 앞의 정규식으로 정의된 부분에 대한 유효성체크
     	if(!regMid.test(mid)) {
@@ -93,7 +97,7 @@
     	}
     	else {		// 전화번호를 입력하지 않을시 DB에는 '010- - '의 형태로 저장하고자 한다.
     		tel2 = " ";
-    		tel2 = " ";
+    		tel3 = " ";
     		tel = tel1 + "-" + tel2 + "-" + tel3;
     		submitFlag = 1;
     	}
@@ -105,6 +109,29 @@
     	let extraAddress = myform.extraAddress.value + " ";
   		myform.address.value = postcode + "/" + roadAddress + "/" + detailAddress + "/" + extraAddress + "/";
     	
+  		// 전송전에 파일에 관한 사항체크...(회원사진의 내역이 비었으면 noimage를 hidden필드인 photo필드에 담아서 전송한다.)
+  		if(fName.trim() == "") {
+  			myform.photo.value = "noimage";
+				submitFlag = 1;
+  		}
+  		else {
+  			let fileSize = document.getElementById("file").files[0].size;
+  			
+  			if(ext != "JPG" && ext != "GIF" && ext != "PNG") {
+  				alert("업로드 가능한 파일은 'JPG/GIF/PNG'파일 입니다.");
+  				return false;
+  			}
+  			else if(fName.indexOf(" ") != -1) {
+  				alert("업로드 파일명에 공백을 포함할 수 없습니다.");
+  				return false;
+  			}
+  			else if(fileSize > maxSize) {
+  				alert("업로드 파일의 크기는 2MByte를 초과할수 없습니다.");
+  				return false;
+  			}
+    		submitFlag = 1;
+    	}
+  		
     	// 전송전에 모든 체크가 끝나면 submitFlag가 1로 되게된다. 이때 값들을 서버로 전송처리한다.
     	if(submitFlag == 1) {
     		if(idCheckSw == 0) {
@@ -166,7 +193,7 @@
 <jsp:include page="/include/header.jsp" />
 <p><br/></p>
 <div class="container">
-  <form name="myform" method="post" action="${ctp}/MemberJoinOk.mem" class="was-validated">
+  <form name="myform" method="post" action="${ctp}/MemberJoinOk.mem" class="was-validated" enctype="multipart/form-data">
     <h2>회 원 가 입</h2>
     <br/>
     <div class="form-group">
@@ -178,8 +205,8 @@
       <input type="password" class="form-control" id="pwd" placeholder="비밀번호를 입력하세요." name="pwd" required />
     </div>
     <div class="form-group">
-      <label for="nickName">닉네임 : &nbsp; &nbsp;<input type="button" id="nickNameBtn" value="닉네임 중복체크" class="btn btn-secondary btn-sm" onclick="nickCheck()"/></label>
-      <input type="text" class="form-control" id="nickName" placeholder="별명을 입력하세요." name="nickName" required />
+      <label for="nickName">닉네임(한글) : &nbsp; &nbsp;<input type="button" id="nickNameBtn" value="닉네임 중복체크" class="btn btn-secondary btn-sm" onclick="nickCheck()"/></label>
+      <input type="text" class="form-control" id="nickName" placeholder="별명(한글)을 입력하세요." name="nickName" required />
     </div>
     <div class="form-group">
       <label for="name">성명 :</label>
@@ -346,6 +373,7 @@
     <input type="hidden" name="email" />
     <input type="hidden" name="tel" />
     <input type="hidden" name="address" />
+    <input type="hidden" name="photo"/>
   </form>
 </div>
 <p><br/></p>

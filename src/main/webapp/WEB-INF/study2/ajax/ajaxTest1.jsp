@@ -186,6 +186,28 @@
     		}
     	});
     }
+    
+    function jsonChange() {
+    	$.ajax({
+    		type : "post",
+    		url  : "${ctp}/Ajax6.st",
+    		success:function(res) {
+    			let js = JSON.parse(res);
+    			console.log("js",js);
+    			let str = '원본 : ' + res + '<hr/>';
+    			
+    			let tempStr = '';
+    			for(let j of Object.keys(js)) {
+    				tempStr += j.이름 + "/";
+    			}
+    			str += tempStr;
+    			$("#demo").html(str);
+    		},
+    		error : function() {
+    			alert("전송오류");
+    		}
+    	});
+    }
   </script>
 </head>
 <body>
@@ -216,6 +238,9 @@
     </div>
     <hr/>
   </form>
+  <hr/><hr/>
+  <h5>Java에서 JSON데이터로.변환후 전송처리.</h5>
+  <input type="button" value="JSON으로" onclick="jsonChange()" class="btn btn-info"/>&nbsp;
 </div>
 <p><br/></p>
 <jsp:include page="/include/footer.jsp" />

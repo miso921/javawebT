@@ -7,31 +7,44 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.oreilly.servlet.MultipartRequest;
+import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
+
 import conn.SecurityUtil;
 
 public class MemberJoinOkCommand implements MemberInterface {
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// 회원 사진이 업로드 되었는지 여부처리?
-		String photo = "noimage.jpg";		
+		String realPath = request.getServletContext().getRealPath("/images/member");
+		int maxSize = 1024 * 1024 * 2;	// 서버에 저장할 최대용량을 2MByte로 한다.(1회 저장)
+		String encoding = "UTF-8";
+
+		MultipartRequest multipartRequest = new MultipartRequest(request, realPath, maxSize, encoding, new DefaultFileRenamePolicy());
 		
-		String mid = request.getParameter("mid")==null ? "" : request.getParameter("mid");
-		String pwd = request.getParameter("pwd")==null ? "" : request.getParameter("pwd");
-		String nickName = request.getParameter("nickName")==null ? "" : request.getParameter("nickName");
-		String name = request.getParameter("name")==null ? "" : request.getParameter("name");
-		String gender = request.getParameter("gender")==null ? "" : request.getParameter("gender");
-		String birthday = request.getParameter("birthday")==null ? "" : request.getParameter("birthday");
-		String tel = request.getParameter("tel")==null ? "" : request.getParameter("tel");
-		String address = request.getParameter("address")==null ? "" : request.getParameter("address");
-		String email = request.getParameter("email")==null ? "" : request.getParameter("email");
-		String homePage = request.getParameter("homePage")==null ? "" : request.getParameter("homePage");
-		String job = request.getParameter("job")==null ? "" : request.getParameter("job");
-		String content = request.getParameter("content")==null ? "" : request.getParameter("content");
-		String userInfor = request.getParameter("userInfor")==null ? "" : request.getParameter("userInfor");
+	  // 회원 사진이 업로드 되었는지의 여부 처리? 업로드된 파일이 있으면 서버에 저장된 이름을, 없으면 'noimage.jpg'파일명을 filesystemName변수에 저장시켜준다.
+		// String originalFileName = multipartRequest.getOriginalFileName("fName");  // 업로드 시킬때의 업로드 파일명이다.
+		String filesystemName = multipartRequest.getFilesystemName("fName");			// 실제 서버에 저장된 파일명.
+		// if(filesystemName == null) filesystemName = "noimage.jpg";	
+		if(filesystemName == null) filesystemName = multipartRequest.getParameter("photo");	
+		
+		// 나머지 값들을 모두 multipartRequest객체를 통해서 받아온다.
+		String mid = multipartRequest.getParameter("mid")==null ? "" : multipartRequest.getParameter("mid");
+		String pwd = multipartRequest.getParameter("pwd")==null ? "" : multipartRequest.getParameter("pwd");
+		String nickName = multipartRequest.getParameter("nickName")==null ? "" : multipartRequest.getParameter("nickName");
+		String name = multipartRequest.getParameter("name")==null ? "" : multipartRequest.getParameter("name");
+		String gender = multipartRequest.getParameter("gender")==null ? "" : multipartRequest.getParameter("gender");
+		String birthday = multipartRequest.getParameter("birthday")==null ? "" : multipartRequest.getParameter("birthday");
+		String tel = multipartRequest.getParameter("tel")==null ? "" : multipartRequest.getParameter("tel");
+		String address = multipartRequest.getParameter("address")==null ? "" : multipartRequest.getParameter("address");
+		String email = multipartRequest.getParameter("email")==null ? "" : multipartRequest.getParameter("email");
+		String homePage = multipartRequest.getParameter("homePage")==null ? "" : multipartRequest.getParameter("homePage");
+		String job = multipartRequest.getParameter("job")==null ? "" : multipartRequest.getParameter("job");
+		String content = multipartRequest.getParameter("content")==null ? "" : multipartRequest.getParameter("content");
+		String userInfor = multipartRequest.getParameter("userInfor")==null ? "" : multipartRequest.getParameter("userInfor");
 		
 		// 취미 전송에 대한 처리
-		String[] hobbys = request.getParameterValues("hobby");
+		String[] hobbys = multipartRequest.getParameterValues("hobby");
 		String hobby = "";
 		if(hobbys.length != 0) {
 			for(String strHobby : hobbys) {
@@ -81,7 +94,7 @@ public class MemberJoinOkCommand implements MemberInterface {
 		vo.setHomePage(homePage);
 		vo.setJob(job);
 		vo.setHobby(hobby);
-		vo.setPhoto(photo);
+		vo.setPhoto(filesystemName);
 		vo.setContent(content);
 		vo.setUserInfor(userInfor);
 		vo.setSalt(salt);

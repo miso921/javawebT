@@ -20,6 +20,37 @@
       clear: both;
     }
   </style>
+  <script>
+    //'use strict';
+ /*    function iRefresh(){     
+    	// member2.location.href="http://localhost:9090/javaweb/";  //iframe의 경로를 입력해 준다.
+    	member2.location.href="http://localhost:9090/javaweb/";  //iframe의 경로를 입력해 준다.
+      setTimeout("iRefresh()",3000);   //3초 간격으로 수정해 주기.
+    }
+    iRefresh(); */
+    
+    function chatInput() {
+    	let chat = $("#chat").val();
+    	if(chat.trim() != "") {
+    		$.ajax({
+    			type : "post",
+    			url  : "${ctp}/MemberMessageInput.mem",
+    			data : {chat : chat},
+    			error:function() {
+    				alert("전송오류!!");
+    			}
+    		});
+    	}
+    }
+    
+    $(function() {
+    	$("#chat").on("keydown",function(e) {
+    		if(e.keyCode == 13) {
+    			chatInput();
+    		}
+    	});
+    });
+  </script>
 </head>
 <body>
 <jsp:include page="/include/header.jsp" />
@@ -53,7 +84,23 @@
     <p>회원사진<br/><img src="${ctp}/images/member/${photo}" width="200px"/></p>
   </div>
   <hr id="memberInfo4" />
-  <div id="memberInfo3">
+  
+  <!-- 실시간 대화내용 확인하기 -->
+  <div style="width:460px">
+    <form name="chatForm">
+      <label for="chat"><b>실시간 대화방</b></label>
+			<iframe src="${ctp}/include/memberMessage.jsp" width="100%" height="220px" class="border"></iframe>
+			<div class="input-group mt-1">
+			  <input type="text" name="chat" id="chat" class="form-control" placeholder="대화내용을 입력하세요." autofocus />
+			  <div class="input-group-append">
+			    <input type="button" value="글등록" onclick="chatInput()" class="btn btn-success"/>
+			  </div>
+			</div>
+    </form>
+  </div>
+  
+  <!-- <div id="memberInfo3"> -->
+    <hr/>
 	  <h4>활동내역</h4>
 	  <p>방명록에 올린글수 : <span class="viewCheck">${guestCnt}</span> 건</p>
 	  <p>게시판에 올린글수 : <span class="viewCheck">
