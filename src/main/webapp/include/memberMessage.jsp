@@ -18,7 +18,7 @@
   <title>memberMessage.jsp</title>
   <jsp:include page="/include/bs4.jsp" />
   <script>
-    setTimeout("location.reload()", 1000*4);		// 4초에 한번식 Refresh 한다.
+    setTimeout("location.reload()", 1000*10);		// 10초에 한번식 Refresh 한다.
     
     $(document).ready(function(){
     	document.body.scrollIntoView(false);	// 스크롤바를 강제로 Body태그의 마지막으로 위치시켜준다.

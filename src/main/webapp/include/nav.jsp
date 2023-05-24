@@ -72,6 +72,7 @@
 				    <div class="dropdown-menu">
 				      <a class="dropdown-item" href="${ctp}/MemberMain.mem">회원메인방</a>
 				      <a class="dropdown-item" href="${ctp}/ScheduleList.sc">스케줄관리</a>
+				      <a class="dropdown-item" href="${ctp}/ReservationList.res">행사예약하기</a>
 				      <a class="dropdown-item" href="${ctp}/MemberPwdUpdate.mem">회원비밀번호변경</a>
 				      <a class="dropdown-item" href="${ctp}/MemberPwdCheckForm.mem">회원정보수정</a>
 				      <c:if test="${sLevel != 1}"><a class="dropdown-item" href="${ctp}/MemberList.mem">회원리스트</a></c:if>

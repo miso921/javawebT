@@ -12,6 +12,8 @@
   <jsp:include page="/include/bs4.jsp" />
   <script>
     'use strict';
+    
+    // 화면처음으로 부드럽게 이동시키기
 		$(window).scroll(function(){
 			if($(this).scrollTop() > 100 ){
 	      $("#topBtn").addClass("on");

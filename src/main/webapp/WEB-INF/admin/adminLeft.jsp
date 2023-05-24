@@ -9,9 +9,9 @@
   <title>adminLeft.jsp</title>
   <jsp:include page="/include/bs4.jsp" />
 </head>
-<body style="background-color:#efa">
+<body style="background-color:#efa; font-size:0.8em;">
 <p><br/></p>
-<div class="text-center">
+<div class="text-center card-hover" id="accordion">
   <h5>관리자메뉴</h5>
   <hr/>
   <p><a href="${ctp}/" target="_top">홈으로</a></p>
@@ -21,6 +21,22 @@
   <p><a href="${ctp}/BoardList.bo" target="adminContent">게시판리스트</a></p>
   <hr/>
   <p><a href="${ctp}/AdminMemberList.ad" target="adminContent">회원리스트</a></p>
+  <hr/>
+  <div class="card">
+    <div class="card-header bg-warning m-0 p-2">
+      <a class="card-link" data-toggle="collapse" href="#collapseOne">
+        예약관리
+      </a>
+    </div>
+    <div id="collapseOne" class="collapse" data-parent="#accordion">	<!-- 처음부터 메뉴 보이게 하려면?  class="collapse show" -->
+      <div class="card-body m-2 p-1">
+        <a href="${ctp}/AdminReservationList.res" target="adminContent">예약관리리스트</a>
+      </div>
+      <div class="card-body m-2 p-1">
+        <a href="${ctp}/AdminReservationProcessList.res" target="adminContent">예약현황리스트</a>
+      </div>
+    </div>
+  </div>
   <hr/>
 </div>
 <p><br/></p>
